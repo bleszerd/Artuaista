@@ -9,4 +9,11 @@ abstract class AppColors {
   static const backgroundAlpha200 = Color.fromRGBO(26, 26, 26, .2);
 
   static const textPrimary = Color.fromRGBO(240, 240, 240, 1);
+  static const textSecondary = Color.fromRGBO(195, 205, 204, 1);
+
+  static const textPlaceholder = Color.fromRGBO(140, 140, 140, 1);
+
+  static const iconPrimaryEnabled = Color.fromRGBO(240, 240, 240, 1);
+
+  static const onSurfaceBackground = Color.fromRGBO(45, 45, 45, 1);
 }

@@ -44,13 +44,7 @@ class _WallpaperListPageState extends State<WallpaperListPage> {
                   const SizedBox(
                     height: 16,
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 16,
-                      horizontal: 24,
-                    ),
-                    child: const WallpaperListHeader(),
-                  ),
+                  const WallpaperListHeader(),
                   WallpaperListLoadingSection(
                     isLoading: widget._controller.loadingDiscoverPhotos.value,
                   ),
