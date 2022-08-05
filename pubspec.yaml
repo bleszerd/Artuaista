@@ -1,0 +1,47 @@
+name: artuaista
+description: A new Flutter project.
+
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.6 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  http: ^0.13.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+  - drawable/images/
+  - drawable/icons/
+
+  fonts:
+    - family: RedHatDisplay
+      fonts:
+        - asset: fonts/red_hat_display_light.ttf
+          weight: 300
+        - asset: fonts/red_hat_display_regular.ttf
+          weight: 400
+        - asset: fonts/red_hat_display_medium.ttf
+          weight: 500
+        - asset: fonts/red_hat_display_semi_bold.ttf
+          weight: 600
+        - asset: fonts/red_hat_display_bold.ttf
+          weight: 700
+        - asset: fonts/red_hat_display_extra_bold.ttf
+          weight: 800
+        - asset: fonts/red_hat_display_black.ttf
+          weight: 900
+          
