@@ -1,6 +1,9 @@
+import 'package:artuaista/pages/landing/components/landing_background.dart';
+import 'package:artuaista/pages/landing/components/landing_hero.dart';
 import 'package:artuaista/shared/theme/app_colors.dart';
 import 'package:artuaista/shared/theme/font_size.dart';
 import 'package:flutter/material.dart';
+import 'package:artuaista/widgets/flat_wide_button.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -10,16 +13,7 @@ class LandingPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Image.asset(
-            "drawable/images/landing_background.jpg",
-            height: MediaQuery.of(context).size.height,
-            fit: BoxFit.fitHeight,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: AppColors.backgroundAlpha200,
-          ),
+          const LandingBackground(),
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
@@ -27,60 +21,25 @@ class LandingPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    height: .1 * (MediaQuery.of(context).size.height),
-                  ),
-                  const Text(
-                    "Find your new favorite wallpaper that looks just like you!",
-                    style: TextStyle(
-                      fontSize: FontSize.big,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.textPrimary,
-                      shadows: [
-                        Shadow(
-                          offset: Offset(1, 1),
-                          color: AppColors.backgroundAlpha700,
-                          blurRadius: 5,
-                        ),
-                      ],
-                    ),
-                  ),
+                  const LandingHero(),
                   Expanded(
                     child: Align(
                       alignment: Alignment.bottomCenter,
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: 52,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pushReplacementNamed(
-                              context,
-                              "/wallpaperList",
-                            );
-                          },
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                            overlayColor: MaterialStateProperty.all(
-                              AppColors.primaryVariation,
-                            ),
-                            backgroundColor: MaterialStateProperty.all(
-                              AppColors.primarySwatch,
-                            ),
-                          ),
-                          child: const Text(
-                            'Discover new wallpapers',
-                            style: TextStyle(
-                              fontSize: FontSize.base,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.textPrimary,
-                            ),
-                          ),
+                      child: FlatWideButton(
+                        textStyle: const TextStyle(
+                          fontSize: FontSize.base,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.textPrimary,
                         ),
+                        text: "Discover new wallpapers",
+                        rippleColor: AppColors.primaryVariation,
+                        backgroundColor: AppColors.primarySwatch,
+                        onPress: () {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            "/wallpaperList",
+                          );
+                        },
                       ),
                     ),
                   ),
