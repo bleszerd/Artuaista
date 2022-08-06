@@ -13,6 +13,7 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   http: ^0.13.5
+  flutter_dotenv: ^5.0.2
 
 dev_dependencies:
   flutter_test:
@@ -26,7 +27,8 @@ flutter:
   assets:
   - drawable/images/
   - drawable/icons/
-
+  - .env
+  
   fonts:
     - family: RedHatDisplay
       fonts:

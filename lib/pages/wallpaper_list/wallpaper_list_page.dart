@@ -37,24 +37,22 @@ class _WallpaperListPageState extends State<WallpaperListPage> {
             widget._controller.loadingDiscoverPhotos,
             widget._controller.discoverPhotos,
           ]),
-          builder: (context, child) => Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  const WallpaperListHeader(),
-                  WallpaperListLoadingSection(
-                    isLoading: widget._controller.loadingDiscoverPhotos.value,
-                  ),
-                  WallpaperList(
-                    wallpaperCount:
-                        widget._controller.discoverPhotos.value.length,
-                    wallpapers: widget._controller.discoverPhotos.value,
-                  )
-                ],
-              ),
+          builder: (context, child) => SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 16,
+                ),
+                const WallpaperListHeader(),
+                WallpaperListLoadingSection(
+                  isLoading: widget._controller.loadingDiscoverPhotos.value,
+                ),
+                WallpaperList(
+                  wallpaperCount:
+                      widget._controller.discoverPhotos.value.length,
+                  wallpapers: widget._controller.discoverPhotos.value,
+                )
+              ],
             ),
           ),
         ),

@@ -3,8 +3,10 @@ import 'package:artuaista/pages/wallpaper_list/wallpaper_list_page.dart';
 import 'package:artuaista/shared/theme/app_colors.dart';
 import 'package:artuaista/shared/theme/font_family.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  await dotenv.load();
   runApp(const Artuaista());
 }
 
