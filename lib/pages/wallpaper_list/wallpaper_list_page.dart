@@ -25,7 +25,9 @@ class _WallpaperListPageState extends State<WallpaperListPage> {
   void initState() {
     super.initState();
 
-    widget._controller.getWallpapers();
+    widget._controller.getWallpapers(
+      keyword: "nature",
+    );
   }
 
   @override
@@ -43,7 +45,12 @@ class _WallpaperListPageState extends State<WallpaperListPage> {
                 const SizedBox(
                   height: 16,
                 ),
-                const WallpaperListHeader(),
+                WallpaperListHeader(
+                  wallpaperListController: widget._controller,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
                 WallpaperListLoadingSection(
                   isLoading: widget._controller.loadingDiscoverPhotos.value,
                 ),

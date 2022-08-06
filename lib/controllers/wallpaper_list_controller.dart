@@ -1,4 +1,5 @@
 import 'package:artuaista/models/discover_wallpaper/discover_photo.dart';
+import 'package:artuaista/models/discover_wallpaper/requests/get_discover_wallpaper.dart';
 import 'package:artuaista/repositories/wallpaper/wallpaper_respository.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -11,12 +12,21 @@ class WallpaperListController {
 
   WallpaperListController({required this.wallpaperRepository});
 
-  void getWallpapers() async {
+  void getWallpapers({
+    required String keyword,
+    bool refreshing = false,
+  }) async {
     if (loadingDiscoverPhotos.value) return;
 
     loadingDiscoverPhotos.value = true;
 
-    var response = await wallpaperRepository.getDiscoverWallpaper();
+    var response = await wallpaperRepository.getDiscoverWallpaper(
+      GetDiscoverWallpaperDTO(
+        page: 1,
+        keyword: keyword,
+        wallpaperOrientation: WallpaperOrientation.portrait,
+      ),
+    );
     discoverPhotos.value = response.photos as List<DiscoverPhoto>;
 
     loadingDiscoverPhotos.value = false;

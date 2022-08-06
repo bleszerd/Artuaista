@@ -1,10 +1,24 @@
+import 'package:artuaista/controllers/wallpaper_list_controller.dart';
 import 'package:artuaista/shared/theme/app_colors.dart';
 import 'package:artuaista/shared/theme/font_size.dart';
+import 'package:artuaista/widgets/app_input.dart';
 import 'package:artuaista/widgets/rounded_button.dart';
 import 'package:flutter/material.dart';
 
-class WallpaperListHeader extends StatelessWidget {
-  const WallpaperListHeader({Key? key}) : super(key: key);
+class WallpaperListHeader extends StatefulWidget {
+  final WallpaperListController wallpaperListController;
+
+  const WallpaperListHeader({
+    Key? key,
+    required this.wallpaperListController,
+  }) : super(key: key);
+
+  @override
+  State<WallpaperListHeader> createState() => _WallpaperListHeaderState();
+}
+
+class _WallpaperListHeaderState extends State<WallpaperListHeader> {
+  var wallpaperInputValue = ValueNotifier<String>("");
 
   @override
   Widget build(BuildContext context) {
@@ -50,50 +64,52 @@ class WallpaperListHeader extends StatelessWidget {
                   ),
                 ],
               ),
-              RoundedButton(
-                backgroundColor: AppColors.primarySwatch,
-                rippleColor: AppColors.primaryVariation,
-                child: const Icon(
-                  Icons.search,
-                  size: 24,
-                  color: AppColors.iconPrimaryEnabled,
-                ),
-                onPress: () {},
-              )
             ],
           ),
         ),
         const SizedBox(
           height: 16,
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Container(
-            padding: const EdgeInsets.only(left: 10, right: 2),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: AppColors.onSurfaceBackground,
+        Row(
+          children: [
+            const SizedBox(
+              width: 16,
             ),
-            child: const TextField(
+            AppInput(
+              onChangedAsync: (inputValue) =>
+                  wallpaperInputValue.value = inputValue,
+              backgroundColor: AppColors.onSurfaceBackground,
               cursorColor: AppColors.primarySwatch,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: "Type something to start searching",
-                hintStyle: TextStyle(
-                  color: AppColors.textPlaceholder,
-                ),
-              ),
-              style: TextStyle(
+              padding: const EdgeInsets.only(left: 10, right: 2),
+              placeholder: "Type something to start searching",
+              placeholderColor: AppColors.textPlaceholder,
+              textStyle: const TextStyle(
                 fontWeight: FontWeight.w300,
                 fontSize: FontSize.basePlus,
                 color: AppColors.textSecondary,
               ),
             ),
-          ),
-        ),
-        const SizedBox(
-          height: 24,
-        ),
+            const SizedBox(
+              width: 16,
+            ),
+            RoundedButton(
+              backgroundColor: AppColors.primarySwatch,
+              rippleColor: AppColors.primaryVariation,
+              child: const Icon(
+                Icons.search,
+                size: 24,
+                color: AppColors.iconPrimaryEnabled,
+              ),
+              onPress: () => widget.wallpaperListController.getWallpapers(
+                keyword: wallpaperInputValue.value,
+                refreshing: true,
+              ),
+            ),
+            const SizedBox(
+              width: 16,
+            ),
+          ],
+        )
       ],
     );
   }
