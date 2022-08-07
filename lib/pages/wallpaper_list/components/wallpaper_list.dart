@@ -21,10 +21,10 @@ class WallpaperList extends StatelessWidget {
       itemCount: wallpaperCount,
       itemBuilder: (context, index) {
         if (index % 2 == 0) {
-          var imageUriFirst = wallpapers[index].src?.portrait;
+          var imageUriFirst = wallpapers[index].src?.medium;
 
           var imageUriSecond = index != wallpapers.length - 1
-              ? wallpapers[index + 1].src?.portrait
+              ? wallpapers[index + 1].src?.medium
               : null;
 
           return imageUriFirst != null

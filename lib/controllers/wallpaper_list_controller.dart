@@ -9,25 +9,32 @@ class WallpaperListController {
   ValueNotifier<List<DiscoverPhoto>> discoverPhotos =
       ValueNotifier<List<DiscoverPhoto>>([]);
   ValueNotifier<bool> loadingDiscoverPhotos = ValueNotifier<bool>(false);
+  ValueNotifier<String> searchKeyword = ValueNotifier<String>("animal");
+  int currentPage = 1;
 
   WallpaperListController({required this.wallpaperRepository});
 
-  void getWallpapers({
-    required String keyword,
-    bool refreshing = false,
-  }) async {
+  void getWallpapers({required int page, bool refreshing = false}) async {
     if (loadingDiscoverPhotos.value) return;
 
     loadingDiscoverPhotos.value = true;
 
     var response = await wallpaperRepository.getDiscoverWallpaper(
       GetDiscoverWallpaperDTO(
-        page: 1,
-        keyword: keyword,
+        page: page,
+        keyword: searchKeyword.value,
         wallpaperOrientation: WallpaperOrientation.portrait,
       ),
     );
-    discoverPhotos.value = response.photos as List<DiscoverPhoto>;
+
+    var responsePhotos = response.photos as List<DiscoverPhoto>;
+
+    if (refreshing) {
+      discoverPhotos.value = responsePhotos;
+    } else {
+      currentPage += 1;
+      discoverPhotos.value.addAll(responsePhotos);
+    }
 
     loadingDiscoverPhotos.value = false;
   }

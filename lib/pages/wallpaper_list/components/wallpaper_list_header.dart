@@ -18,8 +18,6 @@ class WallpaperListHeader extends StatefulWidget {
 }
 
 class _WallpaperListHeaderState extends State<WallpaperListHeader> {
-  var wallpaperInputValue = ValueNotifier<String>("");
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -76,8 +74,8 @@ class _WallpaperListHeaderState extends State<WallpaperListHeader> {
               width: 16,
             ),
             AppInput(
-              onChangedAsync: (inputValue) =>
-                  wallpaperInputValue.value = inputValue,
+              onChangedAsync: (inputValue) => widget
+                  .wallpaperListController.searchKeyword.value = inputValue,
               backgroundColor: AppColors.onSurfaceBackground,
               cursorColor: AppColors.primarySwatch,
               padding: const EdgeInsets.only(left: 10, right: 2),
@@ -101,7 +99,7 @@ class _WallpaperListHeaderState extends State<WallpaperListHeader> {
                 color: AppColors.iconPrimaryEnabled,
               ),
               onPress: () => widget.wallpaperListController.getWallpapers(
-                keyword: wallpaperInputValue.value,
+                page: 1,
                 refreshing: true,
               ),
             ),
