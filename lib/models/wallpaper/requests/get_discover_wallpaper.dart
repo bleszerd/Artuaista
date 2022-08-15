@@ -1,10 +1,10 @@
-class GetDiscoverWallpaperDTO {
+class GetDiscoverWallpaperRequest {
   final String? keyword;
   final WallpaperOrientation? wallpaperOrientation;
   final String? locale;
   final int page;
 
-  GetDiscoverWallpaperDTO({
+  GetDiscoverWallpaperRequest({
     this.wallpaperOrientation,
     this.locale,
     required this.keyword,

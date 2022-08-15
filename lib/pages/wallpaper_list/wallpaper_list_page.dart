@@ -1,12 +1,11 @@
 import 'package:artuaista/controllers/wallpaper_list_controller.dart';
+import 'package:artuaista/models/dtos/wallpaper_details_page_arguments_dto.dart';
 import 'package:artuaista/pages/wallpaper_list/components/wallpaper_list.dart';
 import 'package:artuaista/pages/wallpaper_list/components/wallpaper_list_fab.dart';
 import 'package:artuaista/pages/wallpaper_list/components/wallpaper_list_header.dart';
 import 'package:artuaista/pages/wallpaper_list/components/wallpaper_list_loading_section.dart';
 import 'package:artuaista/repositories/wallpaper/implementation/wallpaper_respository_pexels.dart';
-import 'package:artuaista/shared/theme/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -85,6 +84,14 @@ class _WallpaperListPageState extends State<WallpaperListPage> {
                     height: 16,
                   ),
                   WallpaperList(
+                    onWallpaperPress: (wallpaperId) {
+                      Navigator.of(context).pushNamed(
+                        "/wallpapeDetails",
+                        arguments: WallpaperDetailsPageArgumentsDto(
+                          wallpaperId: wallpaperId,
+                        ),
+                      );
+                    },
                     wallpaperCount:
                         widget._controller.discoverPhotos.value.length,
                     wallpapers: widget._controller.discoverPhotos.value,

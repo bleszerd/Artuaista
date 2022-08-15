@@ -5,6 +5,7 @@ abstract class FontSize {
   static const double basePlus = 16.0;
   static const double title = 20.0;
   static const double titlePlus = 25.0;
+  static const double header = 28.0;
   static const double big = 32.0;
   static const double hero = 48.0;
 }

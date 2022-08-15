@@ -1,14 +1,16 @@
-import 'package:artuaista/models/discover_wallpaper/discover_photo.dart';
+import 'package:artuaista/models/wallpaper/discover_photo.dart';
 import 'package:flutter/material.dart';
 
 class WallpaperList extends StatelessWidget {
   final int wallpaperCount;
   final List<DiscoverPhoto> wallpapers;
+  final Function(int wallpaperId) onWallpaperPress;
 
   const WallpaperList({
     Key? key,
     required this.wallpaperCount,
     required this.wallpapers,
+    required this.onWallpaperPress,
   }) : super(key: key);
 
   @override
@@ -21,17 +23,50 @@ class WallpaperList extends StatelessWidget {
       itemCount: wallpaperCount,
       itemBuilder: (context, index) {
         if (index % 2 == 0) {
+          String? imageUriSecond;
+
           var imageUriFirst = wallpapers[index].src?.medium;
 
-          var imageUriSecond = index != wallpapers.length - 1
-              ? wallpapers[index + 1].src?.medium
-              : null;
+          if (index != wallpapers.length - 1) {
+            imageUriSecond = wallpapers[index + 1].src?.medium;
+          } else {
+            imageUriSecond = null;
+          }
 
-          return imageUriFirst != null
-              ? Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(3),
+          if (imageUriFirst != null) {
+            return Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(3),
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    onPressed: () => onWallpaperPress(wallpapers[index].id!),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: SizedBox(
+                        height: 350,
+                        width: cardSize,
+                        child: Image.network(
+                          fit: BoxFit.fitHeight,
+                          imageUriFirst,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                if (imageUriSecond != null)
+                  Padding(
+                    padding: const EdgeInsets.all(3),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      onPressed: () =>
+                          onWallpaperPress(wallpapers[index + 1].id!),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: SizedBox(
@@ -39,30 +74,19 @@ class WallpaperList extends StatelessWidget {
                           width: cardSize,
                           child: Image.network(
                             fit: BoxFit.fitHeight,
-                            imageUriFirst,
+                            imageUriSecond,
                           ),
                         ),
                       ),
                     ),
-                    imageUriSecond != null
-                        ? Padding(
-                            padding: const EdgeInsets.all(3),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: SizedBox(
-                                height: 350,
-                                width: cardSize,
-                                child: Image.network(
-                                  fit: BoxFit.fitHeight,
-                                  imageUriSecond,
-                                ),
-                              ),
-                            ),
-                          )
-                        : const SizedBox.shrink()
-                  ],
-                )
-              : const SizedBox.shrink();
+                  )
+                else
+                  const SizedBox.shrink()
+              ],
+            );
+          } else {
+            return const SizedBox.shrink();
+          }
         }
 
         return const SizedBox.shrink();

@@ -1,5 +1,5 @@
-import 'package:artuaista/models/discover_wallpaper/discover_photo.dart';
-import 'package:artuaista/models/discover_wallpaper/requests/get_discover_wallpaper.dart';
+import 'package:artuaista/models/wallpaper/discover_photo.dart';
+import 'package:artuaista/models/wallpaper/requests/get_discover_wallpaper.dart';
 import 'package:artuaista/repositories/wallpaper/wallpaper_respository.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -20,7 +20,7 @@ class WallpaperListController {
     loadingDiscoverPhotos.value = true;
 
     var response = await wallpaperRepository.getDiscoverWallpaper(
-      GetDiscoverWallpaperDTO(
+      GetDiscoverWallpaperRequest(
         page: page,
         keyword: searchKeyword.value,
         wallpaperOrientation: WallpaperOrientation.portrait,

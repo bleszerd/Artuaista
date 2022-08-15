@@ -1,5 +1,3 @@
-import 'package:artuaista/shared/theme/app_colors.dart';
-import 'package:artuaista/shared/theme/font_size.dart';
 import 'package:artuaista/shared/utils/extensions/colors_extension.dart';
 import 'package:flutter/material.dart';
 

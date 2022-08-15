@@ -1,12 +1,16 @@
 import 'dart:convert';
 
-import 'package:artuaista/models/discover_wallpaper/requests/get_discover_wallpaper.dart';
-import 'package:artuaista/models/discover_wallpaper/responses/discover_wallpaper_response.dart';
+import 'package:artuaista/models/errors/generic_app_error.dart';
+import 'package:artuaista/models/wallpaper/photo_details.dart';
+import 'package:artuaista/models/wallpaper/requests/get_discover_wallpaper.dart';
+import 'package:artuaista/models/wallpaper/requests/get_wallpaper_details.dart';
+import 'package:artuaista/models/wallpaper/responses/discover_wallpaper_response.dart';
 import 'package:artuaista/repositories/wallpaper/wallpaper_respository.dart';
 import 'package:artuaista/shared/config/dotenv.dart';
 import 'package:artuaista/shared/endpoints/base_url.dart';
 import 'package:artuaista/shared/endpoints/endpoints.dart';
 import 'package:artuaista/shared/endpoints/utils.dart';
+import 'package:artuaista/shared/utils/extensions/enum_to_string_extensions.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -17,11 +21,11 @@ class WallpaperRepositoryPexels implements WallpaperRepository {
 
   @override
   Future<DiscoverWallpaperResponse> getDiscoverWallpaper(
-    GetDiscoverWallpaperDTO getDiscoverWallpaperDTO,
+    GetDiscoverWallpaperRequest getDiscoverWallpaperDTO,
   ) async {
     var queryParams = {
       "query": getDiscoverWallpaperDTO.keyword,
-      "orientation": getDiscoverWallpaperDTO.wallpaperOrientation,
+      "orientation": getDiscoverWallpaperDTO.wallpaperOrientation!.asString(),
       "page": getDiscoverWallpaperDTO.page,
       "per_page": 80,
     };
@@ -48,5 +52,31 @@ class WallpaperRepositoryPexels implements WallpaperRepository {
         DiscoverWallpaperResponse.fromJson(decodedResponse);
 
     return discoverWallpaperResponse;
+  }
+
+  @override
+  Future<PhotoDetails> getWallpaperDetails(
+    GetWallpaperDetailsRequest getWallpaperDetailsRequest,
+  ) async {
+    Uri requestUrl = EndpointUtils.createEndpointUrl(
+      baseUrl: BaseUrl.pexels,
+      url: Endpoints.getWallpaperDetails,
+      urlParams: [
+        getWallpaperDetailsRequest.wallpaperId.toString(),
+      ],
+    );
+
+    var response = await _client.get(
+      requestUrl,
+      headers: {
+        "Authorization": Dotenv.pexelsApiKey,
+      },
+    );
+
+    var decodedResponse = jsonDecode(response.body);
+
+    var getWallpaperDetailsResponse = PhotoDetails.fromJson(decodedResponse);
+
+    return getWallpaperDetailsResponse;
   }
 }

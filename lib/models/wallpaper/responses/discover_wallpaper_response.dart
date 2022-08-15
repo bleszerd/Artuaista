@@ -1,4 +1,4 @@
-import 'package:artuaista/models/discover_wallpaper/discover_photo.dart';
+import 'package:artuaista/models/wallpaper/discover_photo.dart';
 
 class DiscoverWallpaperResponse {
   int? page;
