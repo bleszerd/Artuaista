@@ -1,28 +1,57 @@
 package com.example.artuaista
 
-import android.util.Log
+import com.example.artuaista.bridge.Bridges
+import com.example.artuaista.bridge.WallpaperBridge
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : FlutterActivity() {
     private val CHANNEL = "com.example.artuaista/wallpaper"
+    private val bridgeCalls: ArrayList<String>
+    private val wallpaperBridge = WallpaperBridge()
+    private val _mainCoroutineScope = CoroutineScope(Dispatchers.Main)
+
+    init {
+        val systemBridges = Bridges()
+
+        bridgeCalls = systemBridges.getBridgeCalls()
+    }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler { call, result ->
-            if (call.method == "getHelloWorld") {
-                val helloWorld = getHelloWorld()
+        val mainChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
 
-                result.success(helloWorld)
+        /**
+         * By default this code is configured to run on a secondary lightweight thread
+         * to avoid UI freezes, if you need to make a synchronous call, remember to change the scope
+         * */
+
+        mainChannel.setMethodCallHandler { call, result ->
+            val callMethod = call.method
+
+            if (bridgeCalls.contains(callMethod)) {
+                _mainCoroutineScope.launch {
+                    val callResult = when (callMethod) {
+                        // WALLPAPER BRIDGE
+                        "WallpaperAndroidBridge@setWallpaper" -> {
+                            withContext(Dispatchers.IO) {
+                                val wallpaperBytes = call.argument<ByteArray>("wallpaperBytes")!!
+                                wallpaperBridge.setWallpaper(wallpaperBytes, context)
+                            }
+                        }
+                        // NULL BRIDGE
+                        else -> null
+                    }
+
+                    result.success(callResult)
+                }
             } else {
                 result.notImplemented()
             }
         }
-    }
-
-    private fun getHelloWorld(): String {
-        Log.d("HELLO FLUTTER", "LOG FROM NATIVE")
-
-        return "Hello world from Android native code!"
     }
 }

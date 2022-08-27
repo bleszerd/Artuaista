@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:ffi';
+import 'dart:typed_data';
 
 import 'package:artuaista/models/errors/generic_app_error.dart';
 import 'package:artuaista/models/wallpaper/photo_details.dart';
@@ -78,5 +80,14 @@ class WallpaperRepositoryPexels implements WallpaperRepository {
     var getWallpaperDetailsResponse = PhotoDetails.fromJson(decodedResponse);
 
     return getWallpaperDetailsResponse;
+  }
+
+  @override
+  Future<Uint8List> getWallpaperImage(String url) async {
+    var response = await _client.get(
+      Uri.parse(url),
+    );
+
+    return response.bodyBytes;
   }
 }

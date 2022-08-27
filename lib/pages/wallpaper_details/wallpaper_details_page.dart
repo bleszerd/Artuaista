@@ -3,11 +3,11 @@ import 'package:artuaista/models/dtos/wallpaper_details_page_arguments_dto.dart'
 import 'package:artuaista/pages/wallpaper_details/components/background_head_shadow_effect.dart';
 import 'package:artuaista/pages/wallpaper_details/components/background_wallpaper.dart';
 import 'package:artuaista/repositories/wallpaper/implementation/wallpaper_respository_pexels.dart';
+import 'package:artuaista/shared/bridge/android/feature_wallpaper/wallpaper_android_bridge.dart';
 import 'package:artuaista/shared/theme/app_colors.dart';
 import 'package:artuaista/shared/theme/font_size.dart';
 import 'package:artuaista/widgets/app_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -21,29 +21,9 @@ class WallpaperDetailsPage extends StatefulWidget {
 class _WallpaperDetailsPageState extends State<WallpaperDetailsPage> {
   final WallpaperDetailsController _wallpaperDetailsController =
       WallpaperDetailsController(
-    wallpaperRepository: WallpaperRepositoryPexels(
-      http.Client(),
-    ),
+    wallpaperRepository: WallpaperRepositoryPexels(http.Client()),
+    wallpaperBridge: WallpaperAndroidBridge(),
   );
-
-  static const platform = MethodChannel("com.example.artuaista/wallpaper");
-  String _nativeHelloWorld = "No result";
-
-  Future<void> _getNativeHelloWorld() async {
-    String hello;
-
-    try {
-      final String result = await platform.invokeMethod('getHelloWorld');
-      hello = "Result from native: $result";
-    } on PlatformException catch (e) {
-      hello = "Error on run native code";
-    }
-
-    setState(() {
-      _nativeHelloWorld = hello;
-      print(hello);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +70,6 @@ class _WallpaperDetailsPageState extends State<WallpaperDetailsPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(_nativeHelloWorld),
                       const Text(
                         "Photo by",
                         textAlign: TextAlign.start,
@@ -136,7 +115,7 @@ class _WallpaperDetailsPageState extends State<WallpaperDetailsPage> {
                       rippleColor: AppColors.primaryVariation,
                       enabled: true,
                       onTap: () {
-                        _getNativeHelloWorld();
+                        _wallpaperDetailsController.setWallpaper();
                       },
                       borderRadius: 52,
                       child: const Text(
