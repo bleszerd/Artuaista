@@ -4,6 +4,9 @@ import android.app.WallpaperManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Rect
+import android.util.Log
+import android.widget.Toast
 
 
 class WallpaperBridge {
@@ -12,7 +15,7 @@ class WallpaperBridge {
 
         return try {
             val wallpaperBitmap: Bitmap = BitmapFactory.decodeByteArray(wallpaperBytes, 0, wallpaperBytes.size)
-            wallpaperManager.setBitmap(wallpaperBitmap)
+            wallpaperManager.setBitmap(wallpaperBitmap, null, true, WallpaperManager.FLAG_SYSTEM)
             true
         } catch (e: Exception){
             false
