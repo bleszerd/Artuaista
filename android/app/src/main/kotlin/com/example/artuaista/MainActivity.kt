@@ -1,7 +1,7 @@
 package com.example.artuaista
 
 import com.example.artuaista.bridge.Bridges
-import com.example.artuaista.bridge.WallpaperBridge
+import com.example.artuaista.bridge.feature.wallpaper.WallpaperBridge
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
@@ -12,6 +12,7 @@ import kotlinx.coroutines.withContext
 
 class MainActivity : FlutterActivity() {
     private val CHANNEL = "com.example.artuaista/wallpaper"
+
     private val bridgeCalls: ArrayList<String>
     private val wallpaperBridge = WallpaperBridge()
     private val _mainCoroutineScope = CoroutineScope(Dispatchers.Main)
@@ -39,8 +40,8 @@ class MainActivity : FlutterActivity() {
                         // WALLPAPER BRIDGE
                         "WallpaperAndroidBridge@setWallpaper" -> {
                             withContext(Dispatchers.IO) {
-                                val wallpaperBytes = call.argument<ByteArray>("wallpaperBytes")!!
-                                wallpaperBridge.setWallpaper(wallpaperBytes, context)
+                                var arguments = call.arguments as Map<*, *>
+                                wallpaperBridge.setWallpaper(arguments, context)
                             }
                         }
                         // NULL BRIDGE

@@ -39,7 +39,9 @@ class WallpaperDetailsController {
     var wallpaperBytes =
         await wallpaperRepository.getWallpaperImage(wallpaperUrl);
 
-    bool result = await wallpaperBridge.setWallpaper(wallpaperBytes);
+    bool result = await wallpaperBridge.setWallpaper(
+      wallpaperBytes: wallpaperBytes,
+    );
 
     print(result);
   }

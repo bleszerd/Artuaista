@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:artuaista/shared/bridge/android/android_bridge.dart';
+import 'package:artuaista/shared/bridge/android/feature_wallpaper/constants.dart';
+import 'package:artuaista/shared/utils/extensions/enum_to_string_extensions.dart';
 import 'package:flutter/services.dart';
 
 class WallpaperAndroidBridge extends AndroidBridge {
@@ -8,7 +10,10 @@ class WallpaperAndroidBridge extends AndroidBridge {
   MethodChannel channel =
       const MethodChannel("com.example.artuaista/wallpaper");
 
-  Future<bool> setWallpaper(Uint8List wallpaperBytes) async {
+  Future<bool> setWallpaper({
+    required Uint8List wallpaperBytes,
+    WallpaperFlag wallpaperFlag = WallpaperFlag.ALL,
+  }) async {
     bool success;
 
     try {
@@ -16,11 +21,14 @@ class WallpaperAndroidBridge extends AndroidBridge {
         'WallpaperAndroidBridge@setWallpaper',
         {
           "wallpaperBytes": wallpaperBytes,
+          "wallpaperFlag": wallpaperFlag.asString(),
         },
       );
     } on PlatformException catch (_) {
       success = false;
     }
+
+    print(success);
 
     return success;
   }
