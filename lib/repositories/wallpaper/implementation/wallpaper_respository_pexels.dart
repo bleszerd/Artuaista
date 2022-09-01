@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:typed_data';
 
-import 'package:artuaista/models/errors/generic_app_error.dart';
 import 'package:artuaista/models/wallpaper/photo_details.dart';
 import 'package:artuaista/models/wallpaper/requests/get_discover_wallpaper.dart';
 import 'package:artuaista/models/wallpaper/requests/get_wallpaper_details.dart';

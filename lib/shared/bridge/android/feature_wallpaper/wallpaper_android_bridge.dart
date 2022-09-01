@@ -28,8 +28,6 @@ class WallpaperAndroidBridge extends AndroidBridge {
       success = false;
     }
 
-    print(success);
-
     return success;
   }
 }

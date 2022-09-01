@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:artuaista/models/wallpaper/photo_details.dart';

@@ -1,6 +1,7 @@
 import 'package:artuaista/models/wallpaper/photo_details.dart';
 import 'package:artuaista/models/wallpaper/requests/get_wallpaper_details.dart';
 import 'package:artuaista/repositories/wallpaper/wallpaper_respository.dart';
+import 'package:artuaista/shared/bridge/android/feature_wallpaper/constants.dart';
 import 'package:artuaista/shared/bridge/android/feature_wallpaper/wallpaper_android_bridge.dart';
 import 'package:flutter/foundation.dart';
 
@@ -33,7 +34,11 @@ class WallpaperDetailsController {
     isLoading.value = false;
   }
 
-  void setWallpaper() async {
+  void setWallpaper(
+    WallpaperFlag wallpaperFlag,
+  ) async {
+    isLoading.value = true;
+
     String wallpaperUrl = photoDetails.value!.src!.original!;
 
     var wallpaperBytes =
@@ -41,8 +46,9 @@ class WallpaperDetailsController {
 
     bool result = await wallpaperBridge.setWallpaper(
       wallpaperBytes: wallpaperBytes,
+      wallpaperFlag: wallpaperFlag,
     );
 
-    print(result);
+    isLoading.value = false;
   }
 }

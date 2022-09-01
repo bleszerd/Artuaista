@@ -18,10 +18,6 @@ class BackgroundWallpaper extends StatelessWidget {
       builder: (context, value, child) => SizedBox(
         width: screenSize.width,
         height: screenSize.height,
-        // child: Image.asset(
-        //   "drawable/images/landing_background.jpg",
-        //   fit: BoxFit.fitHeight,
-        // ),
         child: wallpaperDetailsController.photoDetails.value?.src?.original !=
                 null
             ? Image.network(
