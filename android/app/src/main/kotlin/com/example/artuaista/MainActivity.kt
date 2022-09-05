@@ -24,6 +24,7 @@ class MainActivity : FlutterActivity() {
     }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+
         val mainChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
 
         /**
@@ -54,5 +55,7 @@ class MainActivity : FlutterActivity() {
                 result.notImplemented()
             }
         }
+
+        super.configureFlutterEngine(flutterEngine)
     }
 }
