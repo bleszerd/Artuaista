@@ -41,7 +41,7 @@ class MainActivity : FlutterActivity() {
                         // WALLPAPER BRIDGE
                         "WallpaperAndroidBridge@setWallpaper" -> {
                             withContext(Dispatchers.IO) {
-                                var arguments = call.arguments as Map<*, *>
+                                val arguments = call.arguments as Map<*, *>
                                 wallpaperBridge.setWallpaper(arguments, context)
                             }
                         }

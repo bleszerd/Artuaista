@@ -1,9 +1,11 @@
-import 'package:artuaista/pages/error_page/error_page.dart';
-import 'package:artuaista/pages/landing/landing_page.dart';
-import 'package:artuaista/pages/wallpaper_details/wallpaper_details_page.dart';
-import 'package:artuaista/pages/wallpaper_list/wallpaper_list_page.dart';
-import 'package:artuaista/shared/theme/app_colors.dart';
-import 'package:artuaista/shared/theme/font_family.dart';
+import 'dart:ui';
+
+import 'package:artuaista/core/theme/app_colors.dart';
+import 'package:artuaista/core/theme/font_family.dart';
+import 'package:artuaista/features/error/presentation/ui/pages/error_page.dart';
+import 'package:artuaista/features/landing/presentation/ui/pages/landing_page.dart';
+import 'package:artuaista/features/wallpaper/presentation/ui/pages/wallpaper_details_page.dart';
+import 'package:artuaista/features/wallpaper/presentation/ui/pages/wallpaper_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

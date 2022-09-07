@@ -30,8 +30,8 @@ class WallpaperBridge {
 
     private fun getWallpaperFlag(flagStr: String): Int? {
         return when(flagStr){
-            "SYSTEM" -> WallpaperManager.FLAG_SYSTEM
-            "LOCK" -> WallpaperManager.FLAG_LOCK
+            "system" -> WallpaperManager.FLAG_SYSTEM
+            "lock" -> WallpaperManager.FLAG_LOCK
             else -> null
         }
     }
