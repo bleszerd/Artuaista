@@ -16,6 +16,7 @@ import 'package:artuaista/features/wallpaper/presentation/ui/components/backgrou
 import 'package:artuaista/features/wallpaper/presentation/ui/components/set_options_tiles.dart';
 import 'package:artuaista/features/wallpaper/data/dtos/navigationDtos/wallpaper_details_page_arguments_dto.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class WallpaperDetailsPage extends StatefulWidget {
   const WallpaperDetailsPage({Key? key}) : super(key: key);
@@ -43,6 +44,18 @@ class _WallpaperDetailsPageState extends State<WallpaperDetailsPage> {
     ),
     SetDeviceWallpaperUsecaseImpl(),
   );
+
+  @override
+  void initState() {
+    super.initState();
+
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: AppColors.background,
+        statusBarIconBrightness: Brightness.light,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -4,9 +4,27 @@ import 'package:artuaista/core/widgets/flatWideButton/flat_wide_button.dart';
 import 'package:artuaista/features/landing/presentation/ui/components/landing_background.dart';
 import 'package:artuaista/features/landing/presentation/ui/components/landing_hero.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class LandingPage extends StatelessWidget {
+class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
+
+  @override
+  State<LandingPage> createState() => _LandingPageState();
+}
+
+class _LandingPageState extends State<LandingPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: AppColors.transparent,
+        statusBarIconBrightness: Brightness.light,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

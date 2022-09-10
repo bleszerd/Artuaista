@@ -1,4 +1,5 @@
 import 'package:artuaista/core/data/services/http_http_service_impl.dart';
+import 'package:artuaista/core/theme/app_colors.dart';
 import 'package:artuaista/features/wallpaper/data/datasource/remote/pexels/get_discover_wallpapers_pexels_remote_datasource_impl.dart';
 import 'package:artuaista/features/wallpaper/data/repositories/get_discover_wallpaper_repository_impl.dart';
 import 'package:artuaista/features/wallpaper/domain/usecases/get_discover_wallpapers/get_discover_wallpaper_usecase_impl.dart';
@@ -9,6 +10,7 @@ import 'package:artuaista/features/wallpaper/presentation/ui/components/wallpape
 import 'package:artuaista/features/wallpaper/presentation/ui/components/wallpaper_list_loading_section.dart';
 import 'package:artuaista/features/wallpaper/data/dtos/navigationDtos/wallpaper_details_page_arguments_dto.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class WallpaperListPage extends StatefulWidget {
   final WallpaperListController _controller = WallpaperListController(
@@ -39,6 +41,17 @@ class _WallpaperListPageState extends State<WallpaperListPage> {
 
     _wallpaperScrollController = ScrollController()
       ..addListener(_wallpaperScrollListener);
+
+    _setStatusbarStyle();
+  }
+
+  _setStatusbarStyle() {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: AppColors.transparent,
+        statusBarIconBrightness: Brightness.light,
+      ),
+    );
   }
 
   _wallpaperScrollListener() {
@@ -53,12 +66,15 @@ class _WallpaperListPageState extends State<WallpaperListPage> {
 
   @override
   Widget build(BuildContext context) {
+    double statusbarHeight = MediaQuery.of(context).viewPadding.top;
+
     return Scaffold(
       floatingActionButton: WallpaperListFab(
         fabIsVisible: scrollToTopFabVisible,
         scrollController: _wallpaperScrollController,
       ),
       body: SafeArea(
+        top: false,
         child: AnimatedBuilder(
           animation: Listenable.merge([
             widget._controller.loadingDiscoverPhotos,
@@ -79,8 +95,8 @@ class _WallpaperListPageState extends State<WallpaperListPage> {
               controller: _wallpaperScrollController,
               child: Column(
                 children: [
-                  const SizedBox(
-                    height: 16,
+                  SizedBox(
+                    height: statusbarHeight + 12,
                   ),
                   WallpaperListHeader(
                     wallpaperListController: widget._controller,
@@ -90,12 +106,14 @@ class _WallpaperListPageState extends State<WallpaperListPage> {
                   ),
                   WallpaperList(
                     onWallpaperPress: (wallpaperId) {
-                      Navigator.of(context).pushNamed(
-                        "/wallpapeDetails",
-                        arguments: WallpaperDetailsPageArgumentsDto(
-                          wallpaperId: wallpaperId,
-                        ),
-                      );
+                      Navigator.of(context)
+                          .pushNamed(
+                            "/wallpapeDetails",
+                            arguments: WallpaperDetailsPageArgumentsDto(
+                              wallpaperId: wallpaperId,
+                            ),
+                          )
+                          .whenComplete(() => _setStatusbarStyle());
                     },
                     wallpaperCount:
                         widget._controller.discoverPhotos.value.length,

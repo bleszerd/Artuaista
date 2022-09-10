@@ -7,7 +7,6 @@ import 'package:artuaista/features/landing/presentation/ui/pages/landing_page.da
 import 'package:artuaista/features/wallpaper/presentation/ui/pages/wallpaper_details_page.dart';
 import 'package:artuaista/features/wallpaper/presentation/ui/pages/wallpaper_list_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
@@ -24,10 +23,6 @@ class Artuaista extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Paint.enableDithering = true;
-
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: AppColors.background),
-    );
 
     ErrorWidget.builder = (details) => const ErrorPage();
 
