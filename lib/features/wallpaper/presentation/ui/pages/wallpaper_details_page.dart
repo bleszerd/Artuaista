@@ -2,7 +2,11 @@ import 'package:artuaista/core/data/services/http_http_service_impl.dart';
 import 'package:artuaista/core/theme/app_colors.dart';
 import 'package:artuaista/core/theme/font_size.dart';
 import 'package:artuaista/core/widgets/appButton/app_button.dart';
+import 'package:artuaista/features/wallpaper/data/datasource/remote/pexels/get_wallpaper_bytes_pexels_remote_datasource_impl.dart';
+import 'package:artuaista/features/wallpaper/data/datasource/remote/pexels/get_wallpaper_details_pexels_remote_datasource_impl.dart';
 import 'package:artuaista/features/wallpaper/data/dtos/set_device_wallpaper_dto.dart';
+import 'package:artuaista/features/wallpaper/data/repositories/get_wallpaper_bytes_repository_impl.dart';
+import 'package:artuaista/features/wallpaper/data/repositories/get_wallpaper_details_repository_impl.dart';
 import 'package:artuaista/features/wallpaper/domain/usecases/get_wallpaper_bytes/get_wallpaper_bytes_usecase_impl.dart';
 import 'package:artuaista/features/wallpaper/domain/usecases/get_wallpaper_details/get_wallpaper_details_usecase_impl.dart';
 import 'package:artuaista/features/wallpaper/domain/usecases/set_device_wallpaper/set_device_wallpaper_usecase_impl.dart';
@@ -23,8 +27,20 @@ class WallpaperDetailsPage extends StatefulWidget {
 class _WallpaperDetailsPageState extends State<WallpaperDetailsPage> {
   final WallpaperDetailsController _wallpaperDetailsController =
       WallpaperDetailsController(
-    GetWallpaperDetailsUsecaseImpl(HttpHttpServiceImpl()),
-    GetWallpaperBytesUsecaseImpl(HttpHttpServiceImpl()),
+    GetWallpaperDetailsUsecaseImpl(
+      GetWallpaperDetailsRepositoryImpl(
+        GetWallpaperDetailsPexelsRemoteDatasouceImpl(
+          HttpHttpServiceImpl(),
+        ),
+      ),
+    ),
+    GetWallpaperBytesUsecaseImpl(
+      GetWallpaperBytesRepositoryImpl(
+        GetWallpaperBytesPexelsRemoteDatasourceImpl(
+          HttpHttpServiceImpl(),
+        ),
+      ),
+    ),
     SetDeviceWallpaperUsecaseImpl(),
   );
 

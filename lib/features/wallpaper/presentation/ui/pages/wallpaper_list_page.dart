@@ -1,4 +1,6 @@
 import 'package:artuaista/core/data/services/http_http_service_impl.dart';
+import 'package:artuaista/features/wallpaper/data/datasource/remote/pexels/get_discover_wallpapers_pexels_remote_datasource_impl.dart';
+import 'package:artuaista/features/wallpaper/data/repositories/get_discover_wallpaper_repository_impl.dart';
 import 'package:artuaista/features/wallpaper/domain/usecases/get_discover_wallpapers/get_discover_wallpaper_usecase_impl.dart';
 import 'package:artuaista/features/wallpaper/presentation/controllers/wallpaper_list_controller.dart';
 import 'package:artuaista/features/wallpaper/presentation/ui/components/wallpaper_list.dart';
@@ -11,7 +13,11 @@ import 'package:flutter/material.dart';
 class WallpaperListPage extends StatefulWidget {
   final WallpaperListController _controller = WallpaperListController(
     GetDiscoverWallpaperUsecaseImpl(
-      HttpHttpServiceImpl(),
+      GetDiscoverWallpaperRepositoryImpl(
+        GetDiscoverWallpapersPexelsRemoteDatasourceImpl(
+          HttpHttpServiceImpl(),
+        ),
+      ),
     ),
   );
 
