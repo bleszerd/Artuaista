@@ -27,7 +27,11 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 def flutterMinSdkVersion = localProperties.getProperty('flutter.minSdkVersion')
 if (flutterMinSdkVersion == null) {
-    flutterMinSdkVersion = flutter.minSdkVersion.toString();
+    if(flutter.minSdkVersion == null){
+        flutterMinSdkVersion = 24
+    } else {
+        flutterMinSdkVersion = flutter.minSdkVersion.toString();
+    }
 }
 
 android {
