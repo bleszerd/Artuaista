@@ -1,6 +1,12 @@
+import 'package:artuaista/core/data/services/sharedprefs_store_service_impl.dart';
 import 'package:artuaista/core/theme/app_colors.dart';
 import 'package:artuaista/core/theme/font_size.dart';
 import 'package:artuaista/core/widgets/flatWideButton/flat_wide_button.dart';
+import 'package:artuaista/features/landing/data/datasource/local/shared_preferences/check_for_user_data_local_sharedprefs_datasource_impl.dart';
+import 'package:artuaista/features/landing/data/repositories/check_for_user_data_repository_impl.dart';
+import 'package:artuaista/features/landing/domain/usecases/check_for_user_data/check_for_user_data_usecase_impl.dart';
+import 'package:artuaista/features/landing/domain/usecases/create_user_store/create_user_store_usecase_impl.dart';
+import 'package:artuaista/features/landing/presentation/controllers/landing_controller.dart';
 import 'package:artuaista/features/landing/presentation/ui/components/landing_background.dart';
 import 'package:artuaista/features/landing/presentation/ui/components/landing_hero.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +20,23 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
+  final LandingController _controller = LandingController(
+    CreateUserStoreUsecaseImpl(
+      SharedprefsStoreServiceImpl(),
+    ),
+    CheckForUserDataUsecaseImpl(
+      CheckForUserDataRepositoryImpl(
+        CheckForUserDataLocalSharedprefsDatasourceImpl(
+          SharedprefsStoreServiceImpl(),
+        ),
+      ),
+    ),
+  );
+
   @override
   void initState() {
+    _checkForUserData();
+
     super.initState();
 
     SystemChrome.setSystemUIOverlayStyle(
@@ -23,6 +44,19 @@ class _LandingPageState extends State<LandingPage> {
         statusBarColor: AppColors.transparent,
         statusBarIconBrightness: Brightness.light,
       ),
+    );
+  }
+
+  void _checkForUserData() {
+    _controller.checkForUserData(
+      (hasData) {
+        if (hasData) {
+          Navigator.pushReplacementNamed(
+            context,
+            "/wallpaperList",
+          );
+        }
+      },
     );
   }
 
@@ -53,6 +87,8 @@ class _LandingPageState extends State<LandingPage> {
                         rippleColor: AppColors.primaryVariation,
                         backgroundColor: AppColors.primarySwatch,
                         onPress: () {
+                          _controller.createUserStore();
+
                           Navigator.pushReplacementNamed(
                             context,
                             "/wallpaperList",
