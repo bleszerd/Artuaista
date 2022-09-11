@@ -7,6 +7,10 @@ import android.graphics.BitmapFactory
 
 
 class WallpaperBridge {
+    companion object {
+        val SET_WALLPAPER_IDENTIFIER: String ="WallpaperAndroidBridge@set"
+    }
+
     fun setWallpaper(arguments: Map<*, *>, context: Context): Boolean {
         val wallpaperManager = WallpaperManager.getInstance(context)
 

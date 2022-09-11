@@ -2,6 +2,7 @@ enum AppErrorCode {
   generic,
   nullEnv,
   launchActionError,
+  wallpaperCall,
 }
 
 class AppError implements Exception {

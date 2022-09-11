@@ -27,7 +27,9 @@ class WallpaperDetailsController {
   );
 
   void getWallpaparDetails(int? wallpaperId) async {
-    if (wallpaperId == null || isLoading.value) return;
+    if (wallpaperId == null || isLoading.value || photoDetails.value != null) {
+      return;
+    }
 
     isLoading.value = true;
 

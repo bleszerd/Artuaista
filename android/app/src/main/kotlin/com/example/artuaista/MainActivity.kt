@@ -39,7 +39,7 @@ class MainActivity : FlutterActivity() {
                 _mainCoroutineScope.launch {
                     val callResult = when (callMethod) {
                         // WALLPAPER BRIDGE
-                        "WallpaperAndroidBridge@setWallpaper" -> {
+                        WallpaperBridge.SET_WALLPAPER_IDENTIFIER -> {
                             withContext(Dispatchers.IO) {
                                 val arguments = call.arguments as Map<*, *>
                                 wallpaperBridge.setWallpaper(arguments, context)

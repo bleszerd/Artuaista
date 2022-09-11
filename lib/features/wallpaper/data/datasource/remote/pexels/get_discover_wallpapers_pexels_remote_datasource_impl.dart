@@ -33,7 +33,7 @@ class GetDiscoverWallpapersPexelsRemoteDatasourceImpl
     }
 
     Uri requestUrl = EndpointUtils.createEndpointUrl(
-      baseUrl: BaseUrl.pexelsBaseUrl,
+      baseUrl: BaseUrlConstants.pexelsBaseUrl,
       url: WallpaperEndpoints.discoverWallpaper,
       queryParams: queryParams,
     );

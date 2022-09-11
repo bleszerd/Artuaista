@@ -1,4 +1,5 @@
 import 'package:artuaista/core/data/services/http_http_service_impl.dart';
+import 'package:artuaista/core/data/services/native_wallpaper_service_impl.dart';
 import 'package:artuaista/core/theme/app_colors.dart';
 import 'package:artuaista/core/theme/font_size.dart';
 import 'package:artuaista/core/widgets/appButton/app_button.dart';
@@ -18,7 +19,6 @@ import 'package:artuaista/features/wallpaper/presentation/ui/components/set_opti
 import 'package:artuaista/features/wallpaper/data/dtos/navigationDtos/wallpaper_details_page_arguments_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class WallpaperDetailsPage extends StatefulWidget {
   const WallpaperDetailsPage({Key? key}) : super(key: key);
@@ -44,7 +44,11 @@ class _WallpaperDetailsPageState extends State<WallpaperDetailsPage> {
         ),
       ),
     ),
-    SetDeviceWallpaperUsecaseImpl(),
+    SetDeviceWallpaperUsecaseImpl(
+      NativeWallpaperServiceImpl(
+        ThrowExpectedAppErrorUsecaseImpl(),
+      ),
+    ),
     ThrowExpectedAppErrorUsecaseImpl(),
   );
 

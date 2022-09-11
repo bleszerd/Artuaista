@@ -22,7 +22,7 @@ class GetWallpaperDetailsPexelsRemoteDatasouceImpl
     };
 
     Uri requestUrl = EndpointUtils.createEndpointUrl(
-      baseUrl: BaseUrl.pexelsBaseUrl,
+      baseUrl: BaseUrlConstants.pexelsBaseUrl,
       url: WallpaperEndpoints.getWallpaper,
       urlParams: [
         getWallpaperDetailsDto.wallpaperId.toString(),
