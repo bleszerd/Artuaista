@@ -49,7 +49,7 @@ class WallpaperDetailsController {
   ) async {
     isLoading.value = true;
 
-    String wallpaperUrl = photoDetails.value!.src!.original!;
+    String wallpaperUrl = photoDetails.value!.src!.large2x!;
 
     var wallpaperBytes = await _getWallpaperBytesUsecase(wallpaperUrl);
 

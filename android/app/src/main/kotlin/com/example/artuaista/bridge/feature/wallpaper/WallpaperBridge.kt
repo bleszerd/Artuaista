@@ -4,11 +4,12 @@ import android.app.WallpaperManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Rect
 
 
 class WallpaperBridge {
     companion object {
-        val SET_WALLPAPER_IDENTIFIER: String ="WallpaperAndroidBridge@set"
+        const val SET_WALLPAPER_IDENTIFIER: String ="WallpaperAndroidBridge@set"
     }
 
     fun setWallpaper(arguments: Map<*, *>, context: Context): Boolean {
@@ -22,7 +23,7 @@ class WallpaperBridge {
             val wallpaperFlag = getWallpaperFlag(wallpaperFlagArg)
 
             if (wallpaperFlag != null) {
-                wallpaperManager.setBitmap(wallpaperBitmap, null, true, wallpaperFlag)
+                wallpaperManager.setBitmap(wallpaperBitmap, Rect(0, 0, wallpaperBitmap.width, wallpaperBitmap.height), true, wallpaperFlag)
             } else {
                 wallpaperManager.setBitmap(wallpaperBitmap)
             }
