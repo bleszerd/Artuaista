@@ -2,6 +2,7 @@ import 'package:artuaista/core/data/services/http_http_service_impl.dart';
 import 'package:artuaista/core/theme/app_colors.dart';
 import 'package:artuaista/core/theme/font_size.dart';
 import 'package:artuaista/core/widgets/appButton/app_button.dart';
+import 'package:artuaista/features/error/domain/usecases/throw_expected_app_error/throw_expected_app_error_usecase_impl.dart';
 import 'package:artuaista/features/wallpaper/data/datasource/remote/pexels/get_wallpaper_bytes_pexels_remote_datasource_impl.dart';
 import 'package:artuaista/features/wallpaper/data/datasource/remote/pexels/get_wallpaper_details_pexels_remote_datasource_impl.dart';
 import 'package:artuaista/features/wallpaper/data/dtos/set_device_wallpaper_dto.dart';
@@ -17,6 +18,7 @@ import 'package:artuaista/features/wallpaper/presentation/ui/components/set_opti
 import 'package:artuaista/features/wallpaper/data/dtos/navigationDtos/wallpaper_details_page_arguments_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WallpaperDetailsPage extends StatefulWidget {
   const WallpaperDetailsPage({Key? key}) : super(key: key);
@@ -43,6 +45,7 @@ class _WallpaperDetailsPageState extends State<WallpaperDetailsPage> {
       ),
     ),
     SetDeviceWallpaperUsecaseImpl(),
+    ThrowExpectedAppErrorUsecaseImpl(),
   );
 
   @override
@@ -55,6 +58,51 @@ class _WallpaperDetailsPageState extends State<WallpaperDetailsPage> {
         statusBarIconBrightness: Brightness.light,
       ),
     );
+  }
+
+  void _showBottomSheetOptions() {
+    showModalBottomSheet(
+      useRootNavigator: true,
+      isScrollControlled: true,
+      context: context,
+      barrierColor: AppColors.backgroundAlpha700,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      builder: (context) => FractionallySizedBox(
+        heightFactor: .5,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 32,
+            horizontal: 8,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Set wallpaper as",
+                style: TextStyle(
+                  color: AppColors.textPlaceholder,
+                  fontSize: FontSize.title,
+                  fontWeight: FontWeight.w200,
+                ),
+              ),
+              SetOptionsTiles(
+                onTileTap: () => Navigator.pop(context),
+                setLockAndSystemWallpaper: () =>
+                    _wallpaperDetailsController.setWallpaper(WallpaperFlag.all),
+                setSystemWallpaper: () => _wallpaperDetailsController
+                    .setWallpaper(WallpaperFlag.system),
+                setLockScreenBackground: () => _wallpaperDetailsController
+                    .setWallpaper(WallpaperFlag.lock),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _openImageOnPexels() {
+    _wallpaperDetailsController.openImageOnPexels();
   }
 
   @override
@@ -151,57 +199,7 @@ class _WallpaperDetailsPageState extends State<WallpaperDetailsPage> {
                                 backgroundColor: AppColors.primarySwatch,
                                 rippleColor: AppColors.primaryVariation,
                                 enabled: true,
-                                onTap: () {
-                                  showModalBottomSheet(
-                                    useRootNavigator: true,
-                                    isScrollControlled: true,
-                                    context: context,
-                                    barrierColor: AppColors.backgroundAlpha700,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(16)),
-                                    builder: (context) => FractionallySizedBox(
-                                      heightFactor: .5,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 32,
-                                          horizontal: 8,
-                                        ),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const Text(
-                                              "Set wallpaper as",
-                                              style: TextStyle(
-                                                color:
-                                                    AppColors.textPlaceholder,
-                                                fontSize: FontSize.title,
-                                                fontWeight: FontWeight.w200,
-                                              ),
-                                            ),
-                                            SetOptionsTiles(
-                                              onTileTap: () =>
-                                                  Navigator.pop(context),
-                                              setLockAndSystemWallpaper: () =>
-                                                  _wallpaperDetailsController
-                                                      .setWallpaper(
-                                                          WallpaperFlag.all),
-                                              setSystemWallpaper: () =>
-                                                  _wallpaperDetailsController
-                                                      .setWallpaper(
-                                                          WallpaperFlag.system),
-                                              setLockScreenBackground: () =>
-                                                  _wallpaperDetailsController
-                                                      .setWallpaper(
-                                                          WallpaperFlag.lock),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
+                                onTap: _showBottomSheetOptions,
                                 borderRadius: 52,
                                 child: const Text(
                                   "Set wallpaper",
@@ -222,7 +220,7 @@ class _WallpaperDetailsPageState extends State<WallpaperDetailsPage> {
                                 backgroundColor: AppColors.backgroundAlpha700,
                                 rippleColor: AppColors.background,
                                 enabled: true,
-                                onTap: () {},
+                                onTap: _openImageOnPexels,
                                 borderRadius: 52,
                                 child: const Text(
                                   "Open on Pexels",

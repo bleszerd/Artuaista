@@ -9,6 +9,10 @@ class ThrowExpectedAppErrorUsecaseImpl implements ThrowExpectedAppErrorUsecase {
         throw AppError.launch(
           "Null enviroment variable provided, check your environment project file.\n$extraMessage",
         );
+      case AppErrorCode.launchActionError:
+        throw AppError.launch(
+          "An intent has launched without data or with invalid params.\n$extraMessage",
+        );
       default:
         throw AppError.launch(
           "An expected error occurred but was not specified by the developer.\n$extraMessage",

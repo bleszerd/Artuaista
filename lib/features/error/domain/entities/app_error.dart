@@ -1,6 +1,7 @@
 enum AppErrorCode {
   generic,
   nullEnv,
+  launchActionError,
 }
 
 class AppError implements Exception {
